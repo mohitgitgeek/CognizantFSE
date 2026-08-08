@@ -1,0 +1,17 @@
+server: { port: 9090 }
+spring:
+  application: { name: api-gateway }
+  cloud:
+    gateway:
+      discovery: { locator: { enabled: true, lower-case-service-id: true } }
+      routes:
+        - id: account
+          uri: lb://account-service
+          predicates: [ Path=/api/accounts/** ]
+          filters: [ StripPrefix=1, "RequestRateLimiter=redis-rate-limiter.replenishRate=10,redis-rate-limiter.burstCapacity=20", "CircuitBreaker=name=accountCircuit,fallBackUri=forward:/fallback/account" ]
+        - id: loan
+          uri: lb://loan-service
+          predicates: [ Path=/api/loans/** ]
+          filters: [ StripPrefix=1, "CircuitBreaker=name=loanCircuit,fallBackUri=forward:/fallback/loan" ]
+eureka: { client: { service-url: { defaultZone: http://localhost:8761/eureka/ } } }
+resilience4j: { circuitbreaker: { instances: { accountCircuit: { sliding-window-size: 10, failure-rate-threshold: 50 }, loanCircuit: { sliding-window-size: 10, failure-rate-threshold: 50 } } } }
