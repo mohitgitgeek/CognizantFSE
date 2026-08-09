@@ -1,6 +1,6 @@
 # Deepskilling Hands-on Solutions
 
-This repository contains organized, source-controlled solutions for the Digital Nurture Java FSE Deepskilling exercises. Original handouts are preserved separately; solution code and instructions live in the relevant module folders.
+This repository contains organized, source-controlled solutions for the Digital Nurture Java FSE Deepskilling , and now the Upskilling exercises. Original handouts are preserved separately; solution code and instructions live in the relevant module folders.
 
 ## Completed modules
 
